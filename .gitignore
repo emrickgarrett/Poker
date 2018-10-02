@@ -62,4 +62,4 @@ typings/
 .next
 
 #Keys
-server/config/dev.js
+config/dev.js
