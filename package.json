@@ -18,19 +18,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",
-    "concurrently": "^4.0.1",
+    "concurrently": "^4.1.0",
     "cookie-session": "^2.0.0-beta.3",
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "localtunnel": "^1.9.1",
     "lodash": "^4.17.11",
-    "mongoose": "^5.2.14",
-    "nodemon": "^1.18.3",
-    "passport": "^0.4.0",
-    "passport-google-oauth20": "^1.0.0",
+    "mongoose": "^5.4.9",
+    "nodemon": "^1.18.9",
     "path-parser": "^4.2.0",
     "sendgrid": "^5.2.3",
-    "stripe": "^6.12.1"
+    "stripe": "^6.23.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -41,7 +40,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
-    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react": "^7.12.4",
     "forever": "^0.15.3"
   }
 }
