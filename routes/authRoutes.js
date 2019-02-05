@@ -30,7 +30,7 @@ module.exports = (app) => {
 				}
 			});
 		} else {
-			res.status(401).send("{message: \"No user found.\"");
+			res.status(401).send("{ \"message\": \"No user found.\"}");
 		}
 	});
 

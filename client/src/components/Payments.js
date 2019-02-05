@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import StripeCheckout from 'react-stripe-checkout';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class Payments extends Component {
+
+	renderContent() {
+		switch (this.props.auth) {
+			case null:
+			case false:
+				return;
+			default:
+				return <li><a href="/dashboard">Return To Home</a></li>;
+		}
+	}
+
 	render() {
 		return (
 			<StripeCheckout 

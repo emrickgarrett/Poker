@@ -3,7 +3,24 @@ import { FETCH_USER, FETCH_SURVEYS } from './types';
 
 
 export const fetchUser = () => async dispatch => {
-	const res = await axios.get('/api/current_user');
+	var res;
+
+	await axios.get('/api/current_user').then((data) => {
+		res = data;
+	}).catch((err) => {
+		res = false;
+		if(!err.response) {
+			//some kind of network error
+			console.log("Network Error");
+		} else {
+			const code = err.response.status;
+			if(code <= 500) {
+				console.log(err.response.data.message);
+			} else {
+				console.log("Server Error");
+			}
+		}
+	});
 
 	dispatch({type: FETCH_USER, payload: res.data });
 };
