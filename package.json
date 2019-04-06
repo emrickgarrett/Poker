@@ -11,7 +11,7 @@
     "start": "node index.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run webhook\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "webhook": "forever sendgrid_webhook.js"
   },
@@ -29,7 +29,7 @@
     "nodemon": "^1.18.9",
     "path-parser": "^4.2.0",
     "sendgrid": "^5.2.3",
-    "stripe": "^6.23.0"
+    "node-cron": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

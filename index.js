@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const keys = require('./config/keys');
 const bodyParser = require('body-parser');
-require('./models/User');
-require('./models/Survey');
+require('./models/mongoose/User');
+require('./models/mongoose/Survey');
 
 console.log(keys.mongoRoute);
 mongoose.connect(keys.mongoRoute);
@@ -23,6 +23,7 @@ app.use(
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
 require('./routes/surveyRoutes')(app);
+require('./services/cronJobs/currencyUpdater.js');
 
 if(process.env.NODE_ENV === 'production') {
 

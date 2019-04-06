@@ -8,6 +8,8 @@ import Landing from './Landing';
 import Dashboard from './Dashboard';
 import SurveyNew from './surveys/SurveyNew';
 import Login from './Login';
+import Games from './Games';
+import Leaderboard from './Leaderboard';
 
 class App extends Component {
 
@@ -24,6 +26,8 @@ class App extends Component {
 					<div className="container">
 						<Route exact path="/" component = {Landing} />
 						<Route exact path="/surveys" component={Dashboard} />
+						<Route exact path="/games" component={Games} />
+						<Route exact path="/leaderboard" component={Leaderboard} />
 						<Route path="/surveys/new" component={SurveyNew} />
 						<Route path="/auth/login" component={Login} />
 					</div>

@@ -1,17 +1,8 @@
-const passport = require('passport');
 const _ = require('lodash');
 const mongoose = require('mongoose');
-const User = require('../models/User');
+const User = require('../models/mongoose/User');
 
 module.exports = (app) => {
-
-	// app.get('/auth', passport.authenticate('local', { failureRedirect: '/error' }),
-	// 	function(req, res) {
-	// 		res.redirect('/success?username='+req.user.username);
-	// 		//scope: ['profile', 'email']
-	// 	}
-	// );
-	
 
 	app.get('/api/logout', (req, res) => {
 		req.session = null;
@@ -20,7 +11,7 @@ module.exports = (app) => {
 
 	app.get('/api/current_user', (req, res) => {
 		if(req.session.userId) {
-			User.findById(req.session.userId, 'username', function(err, user) {
+			User.findById(req.session.userId, '-password', function(err, user) {
 				if(err) {
 					res.status(500).send(err);
 					return;
@@ -54,7 +45,7 @@ module.exports = (app) => {
 		}
 	});
 
-	app.post('/auth', (req, res) => {
+	app.post('/api/login', (req, res) => {
 		let username = req.body.username;
 		let password = req.body.password;
 
@@ -68,7 +59,8 @@ module.exports = (app) => {
 					return;
 				} else {
 					req.session.userId = user._id;
-					return res.redirect('/profile');
+					res.status(200).send(user);
+					return;
 				}
 			});
 		} else {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Header extends Component {
+	
 	renderContent() {
 		switch (this.props.auth) {
 			case null:
@@ -24,10 +25,10 @@ class Header extends Component {
 			<nav>
 				<div className="nav-wrapper">
 					<Link 
-						to={ this.props.auth ? '/surveys' : '/' } 
+						to={ this.props.auth ? '/games' : '/' } 
 						className="left brand-logo"
 					>
-						Emaily
+						Poker?
 					</Link>
 					<ul className="right">
 						{this.renderContent()}

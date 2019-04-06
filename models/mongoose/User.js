@@ -18,8 +18,34 @@ const UserSchema = new Schema({
 	password: {
 		type: String,
 		required: true
+	},
+	credits: {
+		type: Number,
+		required: true,
+		default: 1000
+	},
+	score: {
+		type: Number,
+		required: true,
+		default: 0
+	},
+	level: {
+		type: Number,
+		required: true,
+		default: 1
+	},
+	prestige: {
+		type: Number,
+		required: true,
+		default: 0
 	}
 });
+
+UserSchema.methods.toJSON = function() {
+	var obj = this.toObject();
+	delete obj.password;
+	return obj;
+}
 
 UserSchema.pre('save', function(next) {
 	var user = this;
@@ -45,7 +71,7 @@ UserSchema.statics.authenticate = function(username, password, callback) {
 			}
 			bcrypt.compare(password, user.password, function(err, result) {
 				if(result === true) {
-					return callback(null, user);
+					return callback(null, user.toJSON());
 				} else {
 					return callback();
 				}
