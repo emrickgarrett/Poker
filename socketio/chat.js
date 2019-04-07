@@ -18,7 +18,7 @@ module.exports = (io) => {
 		}
 
 		socket.on('message', message => {
-			console.log(`Message From ${socket.user.username} : ${message}`);
+			console.log(`Message From ${socket.user.username} : ${message.message}`);
 			socket.broadcast.emit('chat', {author: socket.user.username, message: message});
 		});
 

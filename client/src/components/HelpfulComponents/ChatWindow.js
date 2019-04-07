@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
 import { Link } from 'react-router-dom';
 import ChatAPI from '../../sockets/api';
+import Messages from './Message';
+import './message.css';
 
 class ChatWindow extends Component {
 
@@ -15,6 +17,8 @@ class ChatWindow extends Component {
 
 		this.renderMessages = this.renderMessages.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
+		this.doneButtonKeyHandler = this.doneButtonKeyHandler.bind(this);
+		this.buildMessage = this.buildMessage.bind(this);
 
 		this.chat = new ChatAPI();
 	}
@@ -22,10 +26,6 @@ class ChatWindow extends Component {
 	componentDidUpdate() {
 		var that = this;
 		this.chat.create(this.props.auth.auth_token, function() {
-			that.chat.sendChatMessage("Test", response => {
-				console.log("Sent");
-			});
-
 			that.chat.chatMessageReceived(message => {
 				console.log(message);
 				that.setState({messages: [that.state.messages, message]});
@@ -35,41 +35,56 @@ class ChatWindow extends Component {
 		
 	}
 
-	sendMessage() {
-		this.setState({ message: '' });
+	sendMessage(ev) {
+		ev.preventDefault();
+		var message = this.buildMessage(this.state.message);
+
+		this.chat.sendChatMessage(message, response => {
+			console.log("Sent");
+		})
+		var messages = this.state.messages;
+		messages.push(message);
+		this.setState({ messages: messages, message: '' });
+	}
+
+	buildMessage(message) {
+		return { author: this.props.auth.username, message: message }
+	}
+
+	doneButtonKeyHandler(ev) {
+		if(ev.key === 'Enter') {
+			ev.stopPropagation();
+			this.sendMessage(ev);
+		}
 	}
 
 	renderMessages() {
-		this.state.messages
-			.map(message => {
-				return(
-					<div>{message.author}: {message.message}</div>
-				)
-			});
+		if(this.props.auth) {
+			return (
+				<Messages
+					messages={this.state.messages}
+					currentMember={this.props.auth.username}
+				/>
+			);
+		} else {
+			return (<p></p>);
+		}
 	}
 
 	render() {
 		return (
-			<div className="container">
-				<div className="row">
-					<div className="col-4">
-						<div className="card">
+						<div className="card" style={{maxWidth: '400px'}}>
 							<div className="card-body">
-								<div className="card-title">Global Chat</div>
+								<div className="card-title chat-room">Global Chat</div>
 								<hr/>
-								<div className="messages">
-									{this.renderMessages()}
-								</div>
+								{this.renderMessages()}
 							</div>
+							<hr/>
 							<div className="footer">
-								<input type="text" placeholder="Message"  className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
-								<br/>
-								<button className="btn btn-primary form-control">Send</button>
+								<input type="text" placeholder="Message"  className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})} onKeyDown={this.doneButtonKeyHandler}/>
+								<button className="btn btn-primary form-control" onClick={this.sendMessage}>Send</button>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
 			);
 	}
 }
