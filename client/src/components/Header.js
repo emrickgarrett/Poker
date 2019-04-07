@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 
 class Header extends Component {
 	
+	constructor() {
+		super();
+	}
+
 	renderContent() {
 		switch (this.props.auth) {
 			case null:
