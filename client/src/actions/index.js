@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER, FETCH_SURVEYS } from './types';
+import { FETCH_USER, FETCH_SURVEYS, FETCH_LEADERBOARDS } from './types';
 
 
 export const fetchUser = () => async dispatch => {
@@ -59,6 +59,13 @@ export const loginUser = (username, password, history) => async dispatch => {
 		history.push('/games');
 	}
 	dispatch({type: FETCH_USER, payload: res.data });
+}
+
+export const fetchLeaderboards = () => async dispatch => {
+	const res = await axios.get('/api/leaderboards');
+	console.log(res.data);
+
+	dispatch({ type: FETCH_LEADERBOARDS, payload: res.data });
 }
 
 export const handleToken = (token) => async dispatch => {

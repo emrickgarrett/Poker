@@ -1,4 +1,5 @@
 import React from 'react';
+import Leaderboard from './Leaderboard';
 
 const Landing = () => {
 	return (
@@ -7,6 +8,8 @@ const Landing = () => {
 		Poker?
 		</h1>
 		I barely know er
+
+		<Leaderboard/>
 		</div>
 	);
 };

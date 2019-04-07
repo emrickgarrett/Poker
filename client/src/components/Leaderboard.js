@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import * as actions from '../actions';
 
 class Leaderboard extends Component {
 
@@ -9,19 +10,37 @@ class Leaderboard extends Component {
 		super(props);
 
 		this.refreshLeaderboards = this.refreshLeaderboards.bind(this);
+		this.createLeaderboards = this.createLeaderboards.bind(this);
+	}
+
+	componentDidMount() {
+		this.refreshLeaderboards();
 	}
 
 	refreshLeaderboards() {
+		this.props.fetchLeaderboards();
+	}
 
+
+	createLeaderboards() {
+		var position = 1;
+		return this.props.leaderboards.map(user => {
+			return (
+				<div key={user._id} className="darken-1">
+					<p>{position++}. {user.username} {user.score}</p>
+				</div>
+			);
+		});
 	}
 
 	renderContent() {
-		switch (this.props.auth) {
+		switch (this.props.leaderboards) {
 			case null:
 			case false:
-				return;
+			case undefined:
+				return <li>Somehow... the Leaderboards are empty.</li>;
 			default:
-				return <li><a href="/dashboard">Return To Home</a></li>;
+				return this.createLeaderboards();
 		}
 	}
 
@@ -33,6 +52,9 @@ class Leaderboard extends Component {
 						<div className="card darken-1">
 							<div className="card-content">
 								<span className="card-title">Leaderboard</span>
+								<ul>
+									{this.renderContent()}
+								</ul>
 							</div>
 							<div className="card-action">
 								<button className="waves-effect waves-light btn" onClick={this.refreshLeaderboards}>Refresh</button>
@@ -45,8 +67,8 @@ class Leaderboard extends Component {
 	}
 }
 
-function mapStateToProps({auth}) {
-	return { auth };
+function mapStateToProps({leaderboards}) {
+	return { leaderboards };
 }
 
-export default connect(mapStateToProps)(Leaderboard);
+export default connect(mapStateToProps, actions)(Leaderboard);

@@ -10,6 +10,7 @@ import SurveyNew from './surveys/SurveyNew';
 import Login from './Login';
 import Games from './Games';
 import Leaderboard from './Leaderboard';
+import Chat from './Chat';
 
 class App extends Component {
 
@@ -27,6 +28,7 @@ class App extends Component {
 						<Route exact path="/" component = {Landing} />
 						<Route exact path="/surveys" component={Dashboard} />
 						<Route exact path="/games" component={Games} />
+						<Route exact path="/chat" component={Chat} />
 						<Route exact path="/leaderboard" component={Leaderboard} />
 						<Route path="/surveys/new" component={SurveyNew} />
 						<Route path="/auth/login" component={Login} />

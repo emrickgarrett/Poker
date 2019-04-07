@@ -32,7 +32,7 @@ module.exports = (app) => {
 		let passwordConf = req.body.passwordConf;
 
 		if(password === passwordConf) {
-			User.create({username: username, email: email, password: password}, function(err, user) {
+			User.create({username: username, email: email, password: password, auth_token: Math.random().toString(36).slice(2)}, function(err, user) {
 				if(err) {
 					console.log(err);
 					return res.status(500).send(err);

@@ -1,15 +1,16 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const keys = require('./config/keys');
 const bodyParser = require('body-parser');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 require('./models/mongoose/User');
 require('./models/mongoose/Survey');
 
-console.log(keys.mongoRoute);
 mongoose.connect(keys.mongoRoute);
-
-const app = express();
 
 app.use(bodyParser.json());
 app.use(
@@ -20,9 +21,17 @@ app.use(
 	})
 );
 
+//ROUTES
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
 require('./routes/surveyRoutes')(app);
+require('./routes/statRoutes')(app);
+
+//SOCKETS
+require('./socketio/index')(io);
+require('./socketio/chat')(io);
+
+//CRON JOBS
 require('./services/cronJobs/currencyUpdater.js');
 
 if(process.env.NODE_ENV === 'production') {
@@ -36,4 +45,4 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
+server.listen(PORT);
