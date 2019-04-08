@@ -19,7 +19,8 @@ module.exports = (io) => {
 
 		socket.on('message', message => {
 			console.log(`Message From ${socket.user.username} : ${message.message}`);
-			socket.broadcast.emit('chat', {author: socket.user.username, message: message});
+			//prob will want to do some validation
+			socket.broadcast.emit('chat', message);
 		});
 
 		socket.on('disconnect', function() {

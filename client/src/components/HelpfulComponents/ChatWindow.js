@@ -28,7 +28,9 @@ class ChatWindow extends Component {
 		this.chat.create(this.props.auth.auth_token, function() {
 			that.chat.chatMessageReceived(message => {
 				console.log(message);
-				that.setState({messages: [that.state.messages, message]});
+				var messages = that.state.messages;
+				messages.push(message);
+				that.setState({messages: messages});
 				console.log(that.state.messages);
 			});
 		});
