@@ -8,7 +8,6 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 require('./models/mongoose/User');
-require('./models/mongoose/Survey');
 
 mongoose.connect(keys.mongoRoute);
 
@@ -24,7 +23,6 @@ app.use(
 //ROUTES
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
-require('./routes/surveyRoutes')(app);
 require('./routes/statRoutes')(app);
 
 //SOCKETS
