@@ -5,6 +5,13 @@ import ChatAPI from '../../sockets/api';
 import Messages from './Message';
 import './message.css';
 
+var chatStyle = {
+	width: '350px',
+	position: 'fixed',
+	right: '0',
+	bottom: '0'
+}
+
 class ChatWindow extends Component {
 
 	constructor(props) {
@@ -12,13 +19,15 @@ class ChatWindow extends Component {
 
 		this.state = {
 			message: '',
-			messages: []
+			messages: [],
+			isOpen: false
 		};
 
 		this.renderMessages = this.renderMessages.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
 		this.doneButtonKeyHandler = this.doneButtonKeyHandler.bind(this);
 		this.buildMessage = this.buildMessage.bind(this);
+		this.minimizeChat = this.minimizeChat.bind(this);
 
 		this.chat = new ChatAPI();
 	}
@@ -27,14 +36,11 @@ class ChatWindow extends Component {
 		var that = this;
 		this.chat.create(this.props.auth.auth_token, function() {
 			that.chat.chatMessageReceived(message => {
-				console.log(message);
 				var messages = that.state.messages;
 				messages.push(message);
 				that.setState({messages: messages});
-				console.log(that.state.messages);
 			});
 		});
-		
 	}
 
 	sendMessage(ev) {
@@ -61,6 +67,29 @@ class ChatWindow extends Component {
 		}
 	}
 
+	minimizeChat(ev) {
+		console.log("Minimize the chat window");
+		this.setState({ isOpen: !this.state.isOpen });
+	}
+
+	renderChat() {
+		if(this.state.isOpen) {
+			return (
+				<div>
+					<hr/>
+					{this.renderMessages()}
+					<hr/>
+					<div className="footer">
+						<input type="text" placeholder="Message"  className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})} onKeyDown={this.doneButtonKeyHandler}/>
+						<button className="btn btn-primary form-control" onClick={this.sendMessage}>Send</button>
+					</div>
+				</div>
+			);
+		} else {
+			return(<span/>);
+		}
+	}
+	
 	renderMessages() {
 		if(this.props.auth) {
 			return (
@@ -70,25 +99,28 @@ class ChatWindow extends Component {
 				/>
 			);
 		} else {
-			return (<p></p>);
+			return (<span/>);
 		}
 	}
 
 	render() {
-		return (
-						<div className="card" style={{maxWidth: '400px'}}>
-							<div className="card-body">
-								<div className="card-title chat-room">Global Chat</div>
-								<hr/>
-								{this.renderMessages()}
-							</div>
-							<hr/>
-							<div className="footer">
-								<input type="text" placeholder="Message"  className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})} onKeyDown={this.doneButtonKeyHandler}/>
-								<button className="btn btn-primary form-control" onClick={this.sendMessage}>Send</button>
-							</div>
+		if(this.props.auth) {
+			return (
+				<div className="card" style={chatStyle}>
+					<div className="card-body">
+						<div className="chat-info">
+							<button className="btn btn-primary minimize-button" onClick={this.minimizeChat}>{this.state.isOpen? '-' : '+'}</button>
+							<span className="card-title chat-room">Global Chat</span>
+							<div className="spacer" style={{clear: 'both'}}></div>
 						</div>
+						
+					</div>
+					{this.renderChat()}
+				</div>
 			);
+		} else {
+			return(<span/>);
+		}
 	}
 }
 

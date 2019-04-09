@@ -6,21 +6,27 @@ class Messages extends Component {
 
 	constructor(props) {
 		super(props);
+	}
 
+	componentDidUpdate() {
+		this.scrollToBottom();
 	}
 
 	componentDidMount() {
-
+		this.scrollToBottom();
 	}
 
-	renderMessage(text) {
+	scrollToBottom() {
+		this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+	}
+
+	renderMessage(text, index) {
 		const {author, message} = text;
-		console.log(author);
 		const {currentMember} = this.props;
 		const messageFromMe = author === currentMember;
 		const className = messageFromMe ? "messages-message current-member" : "messages-message";
 		return (
-			<li className={className} key={message}>
+			<li className={className} key={index}>
 				<span
 					className="avatar"
 					style={{backgroundColor: '#000' }}
@@ -40,7 +46,8 @@ class Messages extends Component {
 		const { messages } = this.props;
 		return (
 			<ul className="messages-list">
-				{messages.map(m => this.renderMessage(m)) }
+				{messages.map( (m, index) => this.renderMessage(m, index)) }
+				<div ref={(el) => {this.messagesEnd = el; }}/>
 			</ul>
 		);
 	}

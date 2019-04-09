@@ -11,6 +11,7 @@ import Login from './Login';
 import Games from './Games';
 import Leaderboard from './Leaderboard';
 import Chat from './Chat';
+import ChatWindow from './HelpfulComponents/ChatWindow';
 
 class App extends Component {
 
@@ -33,6 +34,7 @@ class App extends Component {
 						<Route path="/surveys/new" component={SurveyNew} />
 						<Route path="/auth/login" component={Login} />
 					</div>
+					<ChatWindow/>
 				</div>
 			</BrowserRouter>
 			</div>
