@@ -68,7 +68,6 @@ class ChatWindow extends Component {
 	}
 
 	minimizeChat(ev) {
-		console.log("Minimize the chat window");
 		this.setState({ isOpen: !this.state.isOpen });
 	}
 
