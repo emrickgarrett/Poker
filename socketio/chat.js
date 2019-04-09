@@ -20,6 +20,9 @@ module.exports = (io) => {
 		socket.on('message', message => {
 			console.log(`Message From ${socket.user.username} : ${message.message}`);
 			//prob will want to do some validation
+			if(message.message === '') {
+				return;
+			}
 			socket.broadcast.emit('chat', message);
 		});
 

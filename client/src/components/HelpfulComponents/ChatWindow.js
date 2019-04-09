@@ -39,6 +39,7 @@ class ChatWindow extends Component {
 
 	sendMessage(ev) {
 		ev.preventDefault();
+		if(this.state.message === "") { return; }
 		var message = this.buildMessage(this.state.message);
 
 		this.chat.sendChatMessage(message, response => {
