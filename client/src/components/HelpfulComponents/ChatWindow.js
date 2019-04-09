@@ -85,7 +85,7 @@ class ChatWindow extends Component {
 				</div>
 			);
 		} else {
-			return(<span/>);
+			return(null);
 		}
 	}
 	
@@ -98,7 +98,7 @@ class ChatWindow extends Component {
 				/>
 			);
 		} else {
-			return (<span/>);
+			return (null);
 		}
 	}
 
@@ -118,7 +118,7 @@ class ChatWindow extends Component {
 				</div>
 			);
 		} else {
-			return(<span/>);
+			return(null);
 		}
 	}
 }
