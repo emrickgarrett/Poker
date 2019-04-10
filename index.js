@@ -24,6 +24,7 @@ app.use(
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
 require('./routes/statRoutes')(app);
+require('./routes/infoRoutes')(app);
 
 //SOCKETS
 require('./socketio/index')(io);
