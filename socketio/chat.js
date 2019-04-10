@@ -2,6 +2,7 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const User = require('../models/mongoose/User');
 const authenticate = require('./middlewares/authenticate');
+const Message = require('./models/messageProtocol');
 
 var usersOnline = [];
 
@@ -14,7 +15,7 @@ module.exports = (io) => {
 			usersOnline.push(socket.user.username);
 			console.log(`User: ${socket.user.username} has connected`);
 			console.log(`Users Online: ${usersOnline}`);
-			socket.emit("users_online", { usersOnline: usersOnline });
+			socket.emit("users_online", new Message("Users Online", 200, { usersOnline: usersOnline }));
 		}
 
 		socket.on('message', message => {
@@ -23,7 +24,7 @@ module.exports = (io) => {
 			if(message.message === '') {
 				return;
 			}
-			socket.broadcast.emit('chat', message);
+			socket.broadcast.emit('chat', new Message("Message Received", 200, message));
 		});
 
 		socket.on('disconnect', function() {
@@ -32,11 +33,11 @@ module.exports = (io) => {
 			});
 			console.log(`User: ${socket.user.username} has disconnected`);
 			console.log(usersOnline);
-			socket.emit("users_online", { usersOnline: usersOnline });
+			socket.emit("users_online", new Message("Users Online", 200, { usersOnline: usersOnline }));
 		});
 	});
 
 	
 
-	chat.emit("message", "Welcome to Chat!");
+	chat.emit("message", new Message("Welcome to Chat!", 200));
 }

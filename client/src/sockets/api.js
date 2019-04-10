@@ -6,9 +6,9 @@ class ChatAPI {
 		if(typeof this.chatSocket === "undefined") { 
 			console.log("Socket is not authorized");
 			return 
-		};
+		}
 		this.chatSocket.on("chat", message => {
-			cb(message);
+			cb(message.data);
 		});
 	}
 
