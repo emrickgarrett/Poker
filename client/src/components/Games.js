@@ -33,6 +33,9 @@ class Games extends Component {
 						<div className="card darken-1">
 							<div className="card-content">
 								<span className="card-title">Games</span>
+								<ul>
+									<li><Link to="/coinflip">Coin Flip</Link></li>
+								</ul>
 							</div>
 						</div>
 					</div>
